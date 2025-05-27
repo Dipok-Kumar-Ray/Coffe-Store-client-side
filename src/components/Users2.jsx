@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 // import React, { useEffect, useState } from 'react';
 
 const Users2 = () => {
-    const {data: users} = useQuery({
+    const {isPending, error, isError, data: users} = useQuery({
         queryKey:['users'],
         queryFn: async () => {
             const res = await fetch('http://localhost:3000/user')
@@ -35,6 +35,16 @@ const Users2 = () => {
             }
         })
     }
+    //loading spinner
+    if(isPending){
+        return <span className="loading loading-bars loading-lg"></span>
+    }
+
+    //error message
+    if(isError){
+        return <p>{error.message}</p>
+    }
+
     return (
           <div>
             {/* <h2 className="text-3xl">Users: {users.length}</h2> */}
