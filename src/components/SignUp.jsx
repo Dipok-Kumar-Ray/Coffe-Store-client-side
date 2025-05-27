@@ -1,10 +1,13 @@
 import React, { useContext } from 'react';
 import { AuthContext } from '../constexts/AuthContext';
 import Swal from 'sweetalert2';
+import axios from 'axios';
+import { useLoaderData, } from 'react-router';
 
 const SignUp = () => {
     const {createUser} = useContext(AuthContext);
     console.log(createUser);
+    const users = useLoaderData();
 
     const handleSignUp = e => {
         e.preventDefault();
@@ -13,7 +16,11 @@ const SignUp = () => {
         const {email, password, ...restFormData} = Object.fromEntries(formData.entries());
 
        
-
+                //using axios fetch
+        axios.post('http://localhost:3000/user', users)
+        .then(data => {
+            console.log(data.data);
+        })
         // console.log(email, password, userProfile);
         
         // const email = formData.get('email');
@@ -33,7 +40,7 @@ const SignUp = () => {
             }
 
             //save profile info in the db
-            fetch('http://localhost:3000/users', {
+            fetch('http://localhost:3000/user', {
               method : 'POST',
               headers : {
                 'content-type' : 'application/json'
